@@ -125,7 +125,7 @@
 <button id="next-btn" aria-label="Zur nächsten Frage">Nächste Frage</button>
 
 <div id="final-screen" style="display:none;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/LOTR_Movie_Broken_Toe.jpg/800px-LOTR_Movie_Broken_Toe.jpg" alt="Aragorn Szene Zeh gebrochen" />
+  <img src="https://art-global.faceai.art/face-swap/c63efa346452922274e42d9f479eb395.webp" alt="Aragorn Szene Zeh gebrochen" />
   <h2>Du verneigst dich vor niemandem. Happy Birthday Caro!</h2>
   <canvas id="confetti-canvas"></canvas>
 </div>
@@ -136,7 +136,7 @@
 const quizData = [
   {
     question: 'Welches berühmte Zitat von Gandalf ist zu einem beliebten Meme geworden, als er den Balrog in Moria konfrontiert?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Kazad_d%C3%BBm_2.jpg/640px-Kazad_d%C3%BBm_2.jpg',
+    img: 'https://i.pinimg.com/originals/4b/c0/4b/4bc04b18a1fb31c27a84fd503c584fc0.gif',
     answers: [
       'Ein Zauberer kommt nie zu spät, Frodo Beutlin. Ebensowenig zu früh. Er trifft genau dann ein, wann er es beabsichtigt.',
       'Du kannst nicht vorbei! (You shall not pass!)',
@@ -146,20 +146,20 @@ const quizData = [
     correctIndex: 1
   },
   {
-    question: 'Was ist der Name von Frodos treuer Begleiter, der ihn bis zum Ende begleitet?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Samwise_Gamgee_and_Frodo_Baggins_The_Fellowship_of_the_Ring.jpg/640px-Samwise_Gamgee_and_Frodo_Baggins_The_Fellowship_of_the_Ring.jpg',
+    question: 'Was ist der Name von Frodos treuem Begleiter, der ihn bis zum Ende begleitet?',
+    img: 'https://i.pinimg.com/originals/70/19/82/701982f9c8856a380c76893f5c0372d1.gif',
     answers: ['Aragorn', 'Legolas', 'Samweis', 'Boromir'],
     correctIndex: 2
   },
   {
     question: 'Ein bekanntes Meme zeigt Boromir, der sagt: "Man spaziert nicht einfach so nach..." Welchen Ort meint er?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Boromir-lemat-rotwald.jpg/640px-Boromir-lemat-rotwald.jpg',
+    img: 'https://i.pinimg.com/originals/5a/1c/5c/5a1c5ca633ca6002c587748acd323c27.gif',
     answers: ['Isengart', 'Mordor', 'Minas Tirith', 'Moria'],
     correctIndex: 1
   },
   {
     question: 'Was ist der wahre Grund, warum Aragorn schrie, als die Gefährten aus den Minen Morias fliehen konnten?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/LOTR_Movie_Broken_Toe.jpg/640px-LOTR_Movie_Broken_Toe.jpg',
+    img: 'https://i.pinimg.com/originals/32/5a/28/325a28c7d5c4f517fcbb00ca30cbb1b1.gif',
     answers: [
       'Viggo Mortensen hat gegen einen Uruk-Helm getreten und sich dabei den Zeh gebrochen',
       'Weil Aragorn dachte, Merry und Pippin wären vom Balrog getötet worden',
@@ -170,25 +170,25 @@ const quizData = [
   },
   {
     question: 'Welche zwei Charaktere sprechen in den Filmen die allerersten und die allerletzten Worte (ohne die Credits-Songs)?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Hobbit_poster.jpg/640px-Hobbit_poster.jpg',
+    img: 'https://i.makeagif.com/media/6-18-2024/n9aLxs.gif',
     answers: ['Frodo und Sam', 'Gandalf und Frodo', 'Galadriel und Sam', 'Bilbo und Elanor (Sams Tochter)'],
     correctIndex: 0
   },
   {
     question: 'Welche Farbe leuchtet das Schwert Stich, wenn Orks in der Nähe sind?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sting_in_film.jpg/640px-Sting_in_film.jpg',
+    img: 'https://64.media.tumblr.com/f6f4225af12b9ea5453d9a8a3c04138f/tumblr_nfaq28GxSb1u2tigto1_500.gif',
     answers: ['Rot', 'Blau', 'Grün', 'Weiß'],
     correctIndex: 1
   },
   {
     question: 'Welcher Schauspieler spielt sowohl bei Herr der Ringe als auch Ned Stark in „Game of Thrones“ mit?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Sean_Bean_2015_%28cropped%29.jpg/640px-Sean_Bean_2015_%28cropped%29.jpg',
+    img: 'https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUycTIzbzU0bjl1aTEydTEwOXZ4NTduNDB1enBuZ2s3MzNrcDFidjRlMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/RlZO2mKipB3u8/source.gif',
     answers: ['Sean Bean', 'Viggo Mortensen', 'Elijah Wood', 'Orlando Bloom'],
     correctIndex: 0
   },
   {
     question: 'Im Directors Cut von "Die Rückkehr des Königs" gibt es eine Szene am "Mund Saurons". Welches Detail an diesem Charakter wurde digital verändert, um ihn noch beunruhigender zu machen?',
-    img: 'https://upload.wikimedia.org/wikipedia/en/1/17/Mouth_of_Sauron_rodgers.jpeg',
+    img: 'https://i.makeagif.com/media/11-30-2018/WLdxZH.gif',
     answers: [
       'Seine Augen wurden vergrößert.',
       'Sein Mund wurde vertikal gestreckt und vergrößert.',
@@ -199,7 +199,7 @@ const quizData = [
   },
   {
     question: 'Warum lässt sich Frodo nicht einfach von den Adlern nach Mordor fliegen?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Eagle_Passenger_Transport_-_Good_Flying_Airline.JPG/640px-Eagle_Passenger_Transport_-_Good_Flying_Airline.JPG',
+    img: 'https://cdn3.whatculture.com/images/2015/03/The-Eagles-At-Mount-Doom-Lord-Of-The-Rings-Gif.gif',
     answers: [
       'Er hat Höhenangst',
       'Die Nazgul hätten sie abgefangen',
@@ -210,7 +210,7 @@ const quizData = [
   },
   {
     question: 'Was war der Job von Saruman-Schauspieler Christopher Lee bevor er Schauspieler wurde?',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Christopher_Lee_by_Glenn_Fraser_2010.jpg/640px-Christopher_Lee_by_Glenn_Fraser_2010.jpg',
+    img: 'https://i.makeagif.com/media/3-20-2017/0Gw__s.gif',
     answers: [
       'Koch auf einem Kreuzfahrtschiff',
       'Sänger in einer Metal Band',
