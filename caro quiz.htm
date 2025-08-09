@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Herr der Ringe Quiz für Caro</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #1a1a1a;
+    color: #eee;
+    margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
+  }
+  .quiz-container {
+    width: 90%;
+    max-width: 600px;
+    margin-top: 20px;
+    background: #222;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  img.question-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    object-fit: cover;
+    max-height: 300px;
+  }
+  h2 {
+    font-size: 1.2rem;
+  }
+  .answers button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    font-size: 1.15rem;
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    background: #444;
+    color: #eee;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .answers button:hover:not(:disabled) {
+    background: #666;
+  }
+  .answers button:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+  .answers button.correct {
+    background: #2ecc71 !important; /* grün */
+    color: white;
+  }
+  .answers button.wrong {
+    background: #e74c3c !important; /* rot */
+    color: white;
+  }
+  .feedback {
+    margin-top: 15px;
+    font-size: 1rem;
+    min-height: 2em;
+  }
+  #next-btn {
+    margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 1.15rem;
+    border-radius: 10px;
+    border: none;
+    background: #3498db;
+    color: white;
+    cursor:pointer;
+    display: none; /* erst nach Antwort sichtbar */
+  }
+  #next-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  #final-screen {
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+    background: #111;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    color: #eee;
+    margin-top: 20px;
+  }
+  #final-screen img {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    width: 80%;
+    border-radius: 10px;
+    margin: 0 auto 20px auto;
+    display: block;
+  }
+  #final-screen h2 {
+    position: relative;
+    z-index: 1;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  canvas#confetti-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div class="quiz-container" id="quiz-container">
+  <!-- Inhalte werden via JS geliefert -->
+</div>
+
+<button id="next-btn" aria-label="Zur nächsten Frage">Nächste Frage</button>
+
+<div id="final-screen" style="display:none;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/LOTR_Movie_Broken_Toe.jpg/800px-LOTR_Movie_Broken_Toe.jpg" alt="Aragorn Szene Zeh gebrochen" />
+  <h2>Du verneigst dich vor niemandem. Happy Birthday Caro!</h2>
+  <canvas id="confetti-canvas"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+// Quizdaten mit Bildern, Fragen, Antworten & korrekten Indizes
+const quizData = [
+  {
+    question: 'Welches berühmte Zitat von Gandalf ist zu einem beliebten Meme geworden, als er den Balrog in Moria konfrontiert?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Kazad_d%C3%BBm_2.jpg/640px-Kazad_d%C3%BBm_2.jpg',
+    answers: [
+      'Ein Zauberer kommt nie zu spät, Frodo Beutlin. Ebensowenig zu früh. Er trifft genau dann ein, wann er es beabsichtigt.',
+      'Du kannst nicht vorbei! (You shall not pass!)',
+      'Flieht, ihr Narren!',
+      'Ich bin ein Diener des Geheimen Feuers, Gebieter über die Flamme von Anor.'
+    ],
+    correctIndex: 1
+  },
+  {
+    question: 'Was ist der Name von Frodos treuer Begleiter, der ihn bis zum Ende begleitet?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Samwise_Gamgee_and_Frodo_Baggins_The_Fellowship_of_the_Ring.jpg/640px-Samwise_Gamgee_and_Frodo_Baggins_The_Fellowship_of_the_Ring.jpg',
+    answers: ['Aragorn', 'Legolas', 'Samweis', 'Boromir'],
+    correctIndex: 2
+  },
+  {
+    question: 'Ein bekanntes Meme zeigt Boromir, der sagt: "Man spaziert nicht einfach so nach..." Welchen Ort meint er?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Boromir-lemat-rotwald.jpg/640px-Boromir-lemat-rotwald.jpg',
+    answers: ['Isengart', 'Mordor', 'Minas Tirith', 'Moria'],
+    correctIndex: 1
+  },
+  {
+    question: 'Was ist der wahre Grund, warum Aragorn schrie, als die Gefährten aus den Minen Morias fliehen konnten?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/LOTR_Movie_Broken_Toe.jpg/640px-LOTR_Movie_Broken_Toe.jpg',
+    answers: [
+      'Viggo Mortensen hat gegen einen Uruk-Helm getreten und sich dabei den Zeh gebrochen',
+      'Weil Aragorn dachte, Merry und Pippin wären vom Balrog getötet worden',
+      'Regisseur Peter Jackson hat ihn in den Arm gepickst, damit die Szene echter wirkt',
+      'Aragorn schreit gar nie'
+    ],
+    correctIndex: 0
+  },
+  {
+    question: 'Welche zwei Charaktere sprechen in den Filmen die allerersten und die allerletzten Worte (ohne die Credits-Songs)?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Hobbit_poster.jpg/640px-Hobbit_poster.jpg',
+    answers: ['Frodo und Sam', 'Gandalf und Frodo', 'Galadriel und Sam', 'Bilbo und Elanor (Sams Tochter)'],
+    correctIndex: 0
+  },
+  {
+    question: 'Welche Farbe leuchtet das Schwert Stich, wenn Orks in der Nähe sind?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sting_in_film.jpg/640px-Sting_in_film.jpg',
+    answers: ['Rot', 'Blau', 'Grün', 'Weiß'],
+    correctIndex: 1
+  },
+  {
+    question: 'Welcher Schauspieler spielt sowohl bei Herr der Ringe als auch Ned Stark in „Game of Thrones“ mit?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Sean_Bean_2015_%28cropped%29.jpg/640px-Sean_Bean_2015_%28cropped%29.jpg',
+    answers: ['Sean Bean', 'Viggo Mortensen', 'Elijah Wood', 'Orlando Bloom'],
+    correctIndex: 0
+  },
+  {
+    question: 'Im Directors Cut von "Die Rückkehr des Königs" gibt es eine Szene am "Mund Saurons". Welches Detail an diesem Charakter wurde digital verändert, um ihn noch beunruhigender zu machen?',
+    img: 'https://upload.wikimedia.org/wikipedia/en/1/17/Mouth_of_Sauron_rodgers.jpeg',
+    answers: [
+      'Seine Augen wurden vergrößert.',
+      'Sein Mund wurde vertikal gestreckt und vergrößert.',
+      'Seine Zähne wurden geschwärzt.',
+      'Seine Stimme wurde tiefer gemacht.'
+    ],
+    correctIndex: 1
+  },
+  {
+    question: 'Warum lässt sich Frodo nicht einfach von den Adlern nach Mordor fliegen?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Eagle_Passenger_Transport_-_Good_Flying_Airline.JPG/640px-Eagle_Passenger_Transport_-_Good_Flying_Airline.JPG',
+    answers: [
+      'Er hat Höhenangst',
+      'Die Nazgul hätten sie abgefangen',
+      'Die Adler sind zu stolz und machen nicht einfach Taxi-Service',
+      'One does not simply fly into Mordor!'
+    ],
+    correctIndex: null // keine Antwort korrekt
+  },
+  {
+    question: 'Was war der Job von Saruman-Schauspieler Christopher Lee bevor er Schauspieler wurde?',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Christopher_Lee_by_Glenn_Fraser_2010.jpg/640px-Christopher_Lee_by_Glenn_Fraser_2010.jpg',
+    answers: [
+      'Koch auf einem Kreuzfahrtschiff',
+      'Sänger in einer Metal Band',
+      'Offizier bei der Royal Air Force im zweiten Weltkrieg',
+      'Arzt in einer psychiatrischen Klinik in der Schweiz'
+    ],
+    correctIndex: 2
+  }
+];
+
+let currentQuestion = 0;
+let answered = false;
+
+const quizContainer = document.getElementById('quiz-container');
+const nextBtn = document.getElementById('next-btn');
+const finalScreen = document.getElementById('final-screen');
+const confettiCanvas = document.getElementById('confetti-canvas');
+
+function showQuestion(index) {
+  const q = quizData[index];
+  answered = false;
+  nextBtn.style.display = "none";
+  quizContainer.style.display = "block";
+  finalScreen.style.display = "none";
+
+  quizContainer.innerHTML = `
+    <img src="${q.img}" alt="Bild zur Frage ${index + 1}" class="question-image" />
+    <h2>Frage ${index + 1} von ${quizData.length}: ${q.question}</h2>
+    <div class="answers">
+      ${q.answers.map((ans, i) =>
+        `<button data-index="${i}">${ans}</button>`
+      ).join('')}
+    </div>
+    <div class="feedback" aria-live="polite"></div>
+  `;
+
+  const answerButtons = quizContainer.querySelectorAll('.answers button');
+  answerButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      if (answered) return;
+      answered = true;
+      const selectedIndex = parseInt(button.getAttribute('data-index'));
+      const feedbackDiv = quizContainer.querySelector('.feedback');
+
+      // Buttons deaktivieren + Farbe bei korrekt/falsch
+      answerButtons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove('correct', 'wrong');
+      });
+
+      if (q.correctIndex === selectedIndex) {
+        button.classList.add('correct');
+        feedbackDiv.textContent = 'Richtig!';
+      } else {
+        button.classList.add('wrong');
+        feedbackDiv.textContent = 'Falsch!';
+        if (index === 8) {
+          feedbackDiv.textContent += ' Keiner der Antworten ist korrekt.';
+        }
+      }
+      nextBtn.style.display = 'inline-block';
+      nextBtn.disabled = false;
+      nextBtn.focus();
+    });
+  });
+}
+
+nextBtn.addEventListener('click', () => {
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    showQuestion(currentQuestion);
+  } else {
+    quizContainer.style.display = 'none';
+    nextBtn.style.display = 'none';
+    finalScreen.style.display = 'block';
+    launchConfetti();
+  }
+});
+
+function launchConfetti() {
+  const duration = 4 * 1000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+  (function frame() {
+    confetti(Object.assign({}, defaults, {
+      particleCount: 7,
+      origin: { x: Math.random(), y: Math.random() * 0.6 }
+    }));
+    if (Date.now() < animationEnd) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
+
+// Starte das Quiz mit der ersten Frage
+showQuestion(currentQuestion);
+</script>
+</body>
+</html>
